@@ -14,6 +14,7 @@ export const useWebRTC = (roomId) => {
     const [connectionStatus, setConnectionStatus] = useState('disconnected');
     const [userCount, setUserCount] = useState(0);
     const [notifications, setNotifications] = useState([]);
+    const [messages, setMessages] = useState([]);
 
     const socketRef = useRef(null);
     const peerConnectionRef = useRef(null);
@@ -32,7 +33,7 @@ export const useWebRTC = (roomId) => {
         if (!roomId) return;
 
         // Connect to signaling server
-        socketRef.current = io('http://localhost:4000');
+        socketRef.current = io('http://localhost:4000'); // TODO: Env var
 
         socketRef.current.on('connect', () => {
             console.log('Connected to signaling server');
@@ -52,6 +53,10 @@ export const useWebRTC = (roomId) => {
         socketRef.current.on('user-disconnected', (userId) => {
             addNotification('User disconnected');
             handleUserDisconnected();
+        });
+
+        socketRef.current.on('receive-message', (payload) => {
+            setMessages(prev => [...prev, payload]);
         });
 
         socketRef.current.on('offer', handleReceiveOffer);
@@ -162,6 +167,23 @@ export const useWebRTC = (roomId) => {
         }
     };
 
+    const sendMessage = (text) => {
+        if (!text.trim()) return;
+        const payload = {
+            roomId,
+            message: text
+        };
+        socketRef.current.emit('send-message', payload);
+
+        // Optimistic update
+        setMessages(prev => [...prev, {
+            message: text,
+            senderId: 'self',
+            timestamp: new Date().toISOString(),
+            isSelf: true
+        }]);
+    };
+
     const toggleMic = () => {
         if (localStream) {
             localStream.getAudioTracks().forEach(track => track.enabled = !track.enabled);
@@ -182,6 +204,8 @@ export const useWebRTC = (roomId) => {
         toggleMic,
         toggleCamera,
         userCount,
-        notifications
+        notifications,
+        messages,
+        sendMessage
     };
 };
