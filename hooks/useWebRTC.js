@@ -66,7 +66,7 @@ export const useWebRTC = (roomId) => {
         // WAITS for localStream before connecting
         if (!roomId || !localStream) return;
 
-        socketRef.current = io('http://localhost:4000'); // TODO: Env var
+        socketRef.current = io('http://localhost:5000'); // TODO: Env var
 
         socketRef.current.on('connect', () => {
             console.log('Connected to signaling server');

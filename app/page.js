@@ -1,12 +1,20 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Video, Users } from 'lucide-react';
+import { Video, Users, LogOut } from 'lucide-react';
 import styles from './page.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
   const [roomId, setRoomId] = useState('');
   const router = useRouter();
+  const { user, loading, logout } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
 
   const joinRoom = (e) => {
     e.preventDefault();
@@ -20,9 +28,30 @@ export default function Home() {
     router.push(`/room/${newRoomId}`);
   };
 
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null; // Redirecting
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-sm text-gray-400">
+            Logged in as <span className="text-white font-bold">{user.username}</span>
+          </div>
+          <button onClick={logout} className="text-red-400 hover:text-red-300 transition">
+            <LogOut size={20} />
+          </button>
+        </div>
+
         <div className={styles.iconWrapper}>
           <Video size={48} />
         </div>
