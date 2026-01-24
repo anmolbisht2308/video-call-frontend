@@ -23,9 +23,26 @@ export default function Home() {
     }
   };
 
-  const createRoom = () => {
-    const newRoomId = Math.random().toString(36).substring(7);
-    router.push(`/room/${newRoomId}`);
+  const createRoom = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/rooms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include', // Ensure cookies are sent
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to create room');
+      }
+
+      const data = await res.json();
+      router.push(`/room/${data.roomId}`);
+    } catch (error) {
+      console.error('Error creating room:', error);
+      alert('Failed to create room. Please try again.');
+    }
   };
 
   if (loading) {
