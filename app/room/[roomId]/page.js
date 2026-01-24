@@ -167,15 +167,15 @@ export default function Room() {
             </div>
 
             {/* Main Video Area */}
-            <main className={`flex-1 relative flex items-center justify-center p-2 sm:p-3 md:p-4 transition-all duration-300 ${isChatOpen ? 'lg:mr-96' : ''}`}>
-                <div className="w-full h-full flex flex-col gap-2 sm:gap-3">
+            <main className={`flex-1 relative flex items-center justify-center p-2 sm:p-3 md:p-4 lg:px-6 lg:py-8 transition-all duration-300 overflow-hidden ${isChatOpen ? 'lg:mr-96' : ''}`}>
+                <div className="w-full h-full max-h-full flex flex-col gap-2 sm:gap-3 max-w-7xl mx-auto">
 
                     {remoteStream && (
                         <motion.div
                             layout
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="relative bg-black rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/10 group flex-1 w-full"
+                            className="relative bg-black rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/10 group flex-1 w-full min-h-0"
                         >
                             <video
                                 ref={remoteVideoRef}
@@ -192,8 +192,8 @@ export default function Room() {
                     <motion.div
                         layout
                         className={`relative bg-black rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/10 group ${remoteStream
-                                ? 'absolute bottom-16 sm:bottom-20 md:bottom-24 lg:bottom-28 right-2 sm:right-3 md:right-4 w-20 h-28 xs:w-24 xs:h-32 sm:w-28 sm:h-36 md:w-36 md:h-48 lg:w-40 lg:h-52 xl:w-48 xl:h-60 z-30'
-                                : 'flex-1 w-full'
+                            ? 'absolute bottom-20 sm:bottom-24 md:bottom-28 lg:bottom-32 right-2 sm:right-3 md:right-4 lg:right-6 w-32 h-24 xs:w-40 xs:h-28 sm:w-52 sm:h-40 md:w-64 md:h-48 lg:w-80 lg:h-60 z-30'
+                            : 'flex-1 w-full max-w-5xl mx-auto min-h-0'
                             }`}
                     >
                         <video
@@ -201,7 +201,7 @@ export default function Room() {
                             autoPlay
                             playsInline
                             muted
-                            className="w-full h-full object-cover bg-black -scale-x-100"
+                            className="w-full h-full object-contain bg-black -scale-x-100"
                         />
                         <div className={`absolute inset-x-0 bottom-0 p-1 sm:p-1.5 md:p-2 lg:p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex justify-between items-end ${remoteStream ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300`}>
                             <span className="text-white font-semibold backdrop-blur-md bg-white/10 px-1.5 py-0.5 sm:px-2 sm:py-0.5 md:px-2.5 md:py-1 rounded text-[8px] sm:text-[10px] md:text-xs">You</span>
