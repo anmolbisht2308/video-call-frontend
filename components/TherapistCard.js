@@ -10,7 +10,7 @@ export default function TherapistCard({ therapist, onBook }) {
             transition={{ duration: 0.3 }}
             className="group glass rounded-3xl overflow-hidden flex flex-col relative"
         >
-            <div className="relative h-64 overflow-hidden">
+            <div className="relative h-48 overflow-hidden">
                 <img
                     src={therapist.image}
                     alt={therapist.name}
