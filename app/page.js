@@ -106,6 +106,10 @@ export default function Home() {
           <button onClick={() => router.push('/history')} className="w-full py-3 px-4 rounded-lg border border-gray-600 text-gray-300 hover:bg-gray-800 transition flex items-center justify-center gap-2">
             View Meeting History
           </button>
+
+          <button onClick={() => router.push('/therapists')} className="w-full py-3 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition flex items-center justify-center gap-2 font-semibold shadow-lg">
+            Find a Therapist
+          </button>
         </div>
       </div>
     </div>
