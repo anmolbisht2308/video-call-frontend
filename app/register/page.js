@@ -8,6 +8,7 @@ export default function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('client');
     const [error, setError] = useState(null);
     const { register } = useAuth();
 
@@ -15,7 +16,7 @@ export default function Register() {
         e.preventDefault();
         setError(null);
         try {
-            await register(username, email, password);
+            await register(username, email, password, role);
         } catch (err) {
             setError(err.message);
         }
@@ -59,6 +60,18 @@ export default function Register() {
                             className={styles.input}
                             required
                         />
+                    </div>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Role</label>
+                        <select
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                            className={styles.input}
+                            style={{ backgroundColor: '#1f2937', color: 'white' }}
+                        >
+                            <option value="client">Client</option>
+                            <option value="therapist">Therapist</option>
+                        </select>
                     </div>
                     <button type="submit" className={styles.buttonPrimary}>
                         Register

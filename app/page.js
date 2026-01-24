@@ -79,9 +79,17 @@ export default function Home() {
           <span>OR</span>
         </div>
 
-        <button onClick={createRoom} className={styles.buttonSecondary}>
-          Create New Room
-        </button>
+        <div className="flex flex-col gap-3 w-full">
+          {user.role === 'therapist' && (
+            <button onClick={createRoom} className={styles.buttonSecondary}>
+              Create New Room
+            </button>
+          )}
+
+          <button onClick={() => router.push('/history')} className="w-full py-3 px-4 rounded-lg border border-gray-600 text-gray-300 hover:bg-gray-800 transition flex items-center justify-center gap-2">
+            View Meeting History
+          </button>
+        </div>
       </div>
     </div>
   );

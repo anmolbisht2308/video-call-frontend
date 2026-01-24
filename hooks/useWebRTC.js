@@ -8,7 +8,7 @@ const ICE_SERVERS = {
     ],
 };
 
-export const useWebRTC = (roomId) => {
+export const useWebRTC = (roomId, user) => {
     const [localStream, setLocalStream] = useState(null);
     const [remoteStream, setRemoteStream] = useState(null);
     const [connectionStatus, setConnectionStatus] = useState('disconnected');
@@ -63,15 +63,15 @@ export const useWebRTC = (roomId) => {
 
     // 2. Socket & WebRTC Effect (Dependent on localStream)
     useEffect(() => {
-        // WAITS for localStream before connecting
-        if (!roomId || !localStream) return;
+        // WAITS for localStream and USER before connecting
+        if (!roomId || !localStream || !user) return;
 
-        socketRef.current = io('http://localhost:5000'); // TODO: Env var
+        socketRef.current = io('http://localhost:5000'); // Updated to 5000
 
         socketRef.current.on('connect', () => {
             console.log('Connected to signaling server');
             setConnectionStatus('connected');
-            socketRef.current.emit('join-room', roomId, 'user');
+            socketRef.current.emit('join-room', roomId, user._id); // Send real User ID
         });
 
         socketRef.current.on('room-users', (count) => {
@@ -100,7 +100,7 @@ export const useWebRTC = (roomId) => {
             if (socketRef.current) socketRef.current.disconnect();
             if (peerConnectionRef.current) peerConnectionRef.current.close();
         };
-    }, [localStream, roomId]);
+    }, [localStream, roomId, user]);
 
     // Create Peer Connection
     const createPeerConnection = useCallback((targetSocketId) => {
@@ -205,10 +205,11 @@ export const useWebRTC = (roomId) => {
     };
 
     const sendMessage = (text) => {
-        if (!text.trim()) return;
+        if (!text.trim() || !user) return;
         const payload = {
             roomId,
-            message: text
+            message: text,
+            senderId: user._id
         };
         if (socketRef.current) socketRef.current.emit('send-message', payload);
 
@@ -221,7 +222,6 @@ export const useWebRTC = (roomId) => {
     };
 
     const toggleMic = () => {
-        // Should use ref since state might be stale in closures if not careful, but state is okay here
         if (localStreamRef.current) {
             localStreamRef.current.getAudioTracks().forEach(track => {
                 track.enabled = !track.enabled

@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { useWebRTC } from '@/hooks/useWebRTC';
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Monitor, Users, MessageSquare, Send, X } from 'lucide-react';
 import styles from './room.module.css';
@@ -8,6 +9,7 @@ import styles from './room.module.css';
 export default function Room() {
     const { roomId } = useParams();
     const router = useRouter();
+    const { user, loading } = useAuth();
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
     const messagesEndRef = useRef(null);
@@ -28,7 +30,7 @@ export default function Room() {
         notifications,
         messages,
         sendMessage
-    } = useWebRTC(roomId);
+    } = useWebRTC(roomId, user);
 
     useEffect(() => {
         startLocalStream();
