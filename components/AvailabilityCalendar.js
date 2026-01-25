@@ -69,10 +69,13 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
         });
 
         setAvailableSlots(computedSlots);
-        if (onDateSelect) onDateSelect(date);
-        // Reset slot selection on date change
-        if (onSlotSelect) onSlotSelect(null);
     }, [date, availability]);
+
+    // Notify parent of date change and reset slot ONLY when date changes
+    useEffect(() => {
+        if (onDateSelect) onDateSelect(date);
+        if (onSlotSelect) onSlotSelect(null);
+    }, [date]);
 
     return (
         <div className="flex flex-col gap-8">
@@ -137,10 +140,19 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
                 .react-calendar__navigation button {
                     color: white !important;
                     min-width: 44px;
-                    background: none;
+                    background: none !important;
                     font-size: 1.25rem;
                     font-weight: 800;
                     padding: 8px;
+                }
+                .react-calendar__navigation button:disabled {
+                    background-color: transparent !important;
+                    opacity: 0.5;
+                }
+                .react-calendar__navigation button:enabled:hover,
+                .react-calendar__navigation button:enabled:focus {
+                    background-color: rgba(255,255,255,0.1) !important;
+                    border-radius: 8px;
                 }
                 .react-calendar__month-view__weekdays__weekday {
                     color: #64748b;
