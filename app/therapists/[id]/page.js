@@ -144,7 +144,10 @@ export default function TherapistDetail() {
                             <Section title="Check Availability" icon={<Clock size={20} />}>
                                 <div className="bg-slate-900/40 p-6 rounded-2xl border border-white/5">
                                     <AvailabilityCalendar
-                                        availability={therapist.availability}
+                                        availability={{
+                                            weekly: therapist.availability,
+                                            overrides: therapist.availability_overrides
+                                        }}
                                     // onSlotSelect={(slot) => ...} // Optional: Could pre-select for booking
                                     />
                                 </div>

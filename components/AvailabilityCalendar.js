@@ -13,13 +13,28 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
         if (!date) return;
 
         const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-        const weeklySlots = availability?.[dayName] || [];
+        // Check for Override first
+        // Use local ISO date string to match keys
+        const offset = date.getTimezoneOffset();
+        const isoDate = new Date(date.getTime() - (offset * 60 * 1000)).toISOString().split('T')[0];
+
+        let slotsForDay = [];
+
+        if (availability?.overrides && availability.overrides[isoDate] !== undefined) {
+            // Override found (even if empty, it means day off)
+            slotsForDay = availability.overrides[isoDate];
+        } else {
+            // Fallback to Weekly
+            slotsForDay = availability?.weekly?.[dayName] || availability?.[dayName] || [];
+            // Handles both old structure (directly map) and new structure (if passed nested)
+            // But we should standardize input prop `availability` to be the full therapist object or specific parts
+        }
 
         const computedSlots = [];
         const now = new Date();
         const isToday = date.toDateString() === now.toDateString();
 
-        weeklySlots.forEach(slot => {
+        slotsForDay.forEach(slot => {
             const [startStr, endStr] = slot.split('-');
             if (!startStr || !endStr) return;
 
@@ -80,7 +95,7 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
             </div>
 
             <div className="w-full md:w-64 flex flex-col gap-4 border-l border-white/5 md:pl-8">
-                <h3 className="font-semibold text-slate-400 text-sm uppercase tracking-wider">Available Slots</h3>
+                <h3 className="font-semibold text-slate-400 text-sm uppercase tracking-wider">Available  (IST)</h3>
                 <p className="text-xs text-slate-500 mb-2">{date.toDateString()}</p>
 
                 <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">

@@ -179,7 +179,10 @@ export default function BookAppointment() {
                                     </div>
 
                                     <AvailabilityCalendar
-                                        availability={therapist.availability}
+                                        availability={{
+                                            weekly: therapist.availability,
+                                            overrides: therapist.availability_overrides
+                                        }}
                                         onDateSelect={setDate}
                                         selectedSlot={selectedSlot}
                                         onSlotSelect={setSelectedSlot}

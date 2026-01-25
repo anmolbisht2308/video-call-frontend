@@ -31,7 +31,8 @@ export default function Profile() {
         price: '',
         discounted_price: '',
         expert: false,
-        availability: {}
+        availability: {},
+        availability_overrides: {}
     });
 
     useEffect(() => {
@@ -250,8 +251,15 @@ export default function Profile() {
                 {/* Availability Section */}
                 <Section title="Weekly Availability" icon={<Clock size={20} />}>
                     <AvailabilityEditor
-                        value={formData.availability}
-                        onChange={(newSlots) => setFormData(prev => ({ ...prev, availability: newSlots }))}
+                        value={{
+                            weekly: formData.availability,
+                            overrides: formData.availability_overrides
+                        }}
+                        onChange={({ weekly, overrides }) => setFormData(prev => ({
+                            ...prev,
+                            availability: weekly,
+                            availability_overrides: overrides
+                        }))}
                     />
                 </Section>
 
