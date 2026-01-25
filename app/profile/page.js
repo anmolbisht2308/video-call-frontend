@@ -30,7 +30,8 @@ export default function Profile() {
         image: '',
         price: '',
         discounted_price: '',
-        expert: false
+        expert: false,
+        availability: {}
     });
 
     useEffect(() => {
@@ -246,6 +247,14 @@ export default function Profile() {
                     </div>
                 </Section>
 
+                {/* Availability Section */}
+                <Section title="Weekly Availability" icon={<Clock size={20} />}>
+                    <AvailabilityEditor
+                        value={formData.availability}
+                        onChange={(newSlots) => setFormData(prev => ({ ...prev, availability: newSlots }))}
+                    />
+                </Section>
+
                 {/* Submit Button */}
                 <div className="flex justify-end pt-6">
                     <button
@@ -263,6 +272,8 @@ export default function Profile() {
 }
 
 // Reusable Components
+import AvailabilityEditor from '@/components/AvailabilityEditor';
+
 function Section({ title, icon, children }) {
     return (
         <div className="glass p-8 rounded-3xl border border-white/5">
