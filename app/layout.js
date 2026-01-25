@@ -9,12 +9,14 @@ export const metadata = {
 };
 
 import { AuthProvider } from "@/context/AuthContext";
+import Navbar from "@/components/Navbar";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} animated-bg min-h-screen text-slate-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200`}>
+      <body className={`${inter.className} animated-bg min-h-screen text-slate-200 antialiased selection:bg-indigo-500/30 selection:text-indigo-200 pt-24`}>
         <AuthProvider>
+          <Navbar />
           {children}
         </AuthProvider>
       </body>

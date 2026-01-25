@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Video, Users, LogOut, Search, Calendar, Activity } from 'lucide-react';
+import { Video, Users, Search, Calendar, Activity } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
 
@@ -53,26 +53,11 @@ export default function Home() {
   return (
     <div className="min-h-screen p-6 md:p-12 max-w-7xl mx-auto flex flex-col gap-10">
 
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex justify-between items-center"
-      >
-        <div>
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-            Welcome back, {user.username}
-          </h1>
-          <p className="text-slate-400 mt-1">Ready for your session today?</p>
-        </div>
-        <button
-          onClick={logout}
-          className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-700 hover:bg-slate-800 transition-colors text-slate-300"
-        >
-          <LogOut size={18} />
-          <span className="hidden sm:inline">Logout</span>
-        </button>
-      </motion.header>
+      {/* Main Dashboard Grid */}
+      <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-2">
+        Welcome back, {user.username}
+      </h1>
+      <p className="text-slate-400 -mt-8 mb-4">Ready for your session today?</p>
 
       {/* Main Dashboard Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
