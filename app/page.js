@@ -152,12 +152,21 @@ export default function Home() {
 
           <div className="space-y-3 mt-auto">
             {user.role === 'therapist' && (
-              <button
-                onClick={createRoom}
-                className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98]"
-              >
-                Create New Session
-              </button>
+              <>
+                <button
+                  onClick={() => router.push('/profile')}
+                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98]"
+                >
+                  Manage Profile
+                </button>
+
+                <button
+                  onClick={createRoom}
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98]"
+                >
+                  Create New Session
+                </button>
+              </>
             )}
             <button
               onClick={() => router.push('/history')}
