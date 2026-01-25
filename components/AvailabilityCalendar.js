@@ -69,14 +69,17 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
         });
 
         setAvailableSlots(computedSlots);
-        if (onDateSelect) onDateSelect(date);
-        // Reset slot selection on date change
-        if (onSlotSelect) onSlotSelect(null);
     }, [date, availability]);
 
+    // Notify parent of date change and reset slot ONLY when date changes
+    useEffect(() => {
+        if (onDateSelect) onDateSelect(date);
+        if (onSlotSelect) onSlotSelect(null);
+    }, [date]);
+
     return (
-        <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-1 calendar-container">
+        <div className="flex flex-col gap-8">
+            <div className="calendar-container w-full">
                 <Calendar
                     onChange={setDate}
                     value={date}
@@ -85,7 +88,7 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
                     tileClassName={({ date: d, view }) => {
                         // Highlight if selected
                         if (view === 'month' && d.toDateString() === date.toDateString()) {
-                            return 'bg-blue-600 text-white rounded-lg !bg-blue-600';
+                            return 'bg-blue-600 text-white rounded-lg !bg-blue-600 shadow-md';
                         }
                         // Disable if past
                         if (d < new Date().setHours(0, 0, 0, 0)) return 'opacity-25 text-slate-600 cursor-not-allowed';
@@ -94,28 +97,30 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
                 />
             </div>
 
-            <div className="w-full md:w-64 flex flex-col gap-4 border-l border-white/5 md:pl-8">
-                <h3 className="font-semibold text-slate-400 text-sm uppercase tracking-wider">Available  (IST)</h3>
-                <p className="text-xs text-slate-500 mb-2">{date.toDateString()}</p>
+            <div className="flex flex-col gap-4 border-t border-white/5 pt-6 mt-2">
+                <div className="flex justify-between items-center">
+                    <h3 className="font-bold text-slate-300 text-sm uppercase tracking-wider">Available Slots</h3>
+                    <p className="text-xs text-blue-400 font-medium bg-blue-500/10 px-2 py-1 rounded border border-blue-500/20">{date.toDateString()}</p>
+                </div>
 
-                <div className="grid grid-cols-2 gap-2 overflow-y-auto max-h-[300px] pr-2 custom-scrollbar">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 overflow-y-auto max-h-[220px] pr-2 custom-scrollbar">
                     {availableSlots.length > 0 ? (
                         availableSlots.map((slot, idx) => (
                             <button
                                 key={idx}
                                 onClick={() => onSlotSelect && onSlotSelect(slot)}
-                                className={`text-sm py-2 px-3 rounded-lg border transition-all ${selectedSlot === slot
-                                    ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/25'
-                                    : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-500 hover:text-white'
+                                className={`text-sm py-3 px-2 rounded-xl border border-transparent transition-all font-medium ${selectedSlot === slot
+                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
                                     }`}
                             >
                                 {slot}
                             </button>
                         ))
                     ) : (
-                        <div className="col-span-2 text-center py-8 text-slate-500 border border-dashed border-slate-800 rounded-xl">
-                            <Clock size={24} className="mx-auto mb-2 opacity-50" />
-                            <p className="text-sm">No slots available</p>
+                        <div className="col-span-full py-12 flex flex-col items-center justify-center text-slate-500 border border-dashed border-slate-800 rounded-2xl bg-slate-900/40">
+                            <Clock size={32} className="mb-3 opacity-40" />
+                            <p className="text-sm font-medium">No slots available for this date</p>
                         </div>
                     )}
                 </div>
@@ -128,12 +133,17 @@ export default function AvailabilityCalendar({ availability, onDateSelect, onSlo
                     width: 100% !important;
                     font-family: inherit !important;
                 }
+                .react-calendar__navigation {
+                    display: flex; 
+                    margin-bottom: 20px;
+                }
                 .react-calendar__navigation button {
                     color: white !important;
                     min-width: 44px;
-                    background: none;
-                    font-size: 1.1rem;
-                    font-weight: bold;
+                    background: none !important;
+                    font-size: 1.25rem;
+                    font-weight: 800;
+                    padding: 8px;
                 }
                 .react-calendar__navigation button:disabled {
                     background-color: transparent !important;

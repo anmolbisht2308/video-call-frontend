@@ -107,7 +107,7 @@ export default function Room() {
     };
 
     return (
-        <div className="h-screen w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col relative overflow-hidden font-sans text-slate-100 selection:bg-indigo-500/30">
+        <div className="h-[calc(100vh-6rem)] w-full bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex flex-col relative overflow-hidden font-sans text-slate-100 selection:bg-indigo-500/30">
 
             {/* Header */}
             <AnimatePresence>
