@@ -44,7 +44,7 @@ export default function History() {
     }
 
     return (
-        <div className="min-h-screen p-6 md:p-12 max-w-5xl mx-auto flex flex-col gap-8">
+        <div className="min-h-[calc(100vh-6rem)] p-6 md:p-12 max-w-5xl mx-auto flex flex-col gap-8">
             <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}

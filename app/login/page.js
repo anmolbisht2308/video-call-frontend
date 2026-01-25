@@ -26,7 +26,7 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+        <div className="min-h-[calc(100vh-6rem)] grid grid-cols-1 md:grid-cols-2">
 
             {/* Left Side - Form */}
             <div className="flex items-center justify-center p-8 bg-slate-950 relative overflow-hidden">

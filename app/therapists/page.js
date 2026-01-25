@@ -45,7 +45,7 @@ export default function TherapistsPage() {
     };
 
     return (
-        <div className="min-h-screen max-w-[1600px] mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-8 text-slate-200 font-sans">
+        <div className="min-h-[calc(100vh-6rem)] max-w-[1600px] mx-auto p-4 md:p-8 flex flex-col lg:flex-row gap-8 text-slate-200 font-sans">
 
             {/* Mobile Filter Toggle */}
             <motion.button

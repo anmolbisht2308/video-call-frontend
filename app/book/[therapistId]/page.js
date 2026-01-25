@@ -86,7 +86,7 @@ export default function BookAppointment() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 text-slate-200 p-4 md:p-8 font-sans selection:bg-blue-500/30">
+        <div className="min-h-[calc(100vh-6rem)] bg-slate-950 text-slate-200 p-4 md:p-8 font-sans selection:bg-blue-500/30">
             <div className="max-w-6xl mx-auto">
                 <button
                     onClick={() => router.back()}

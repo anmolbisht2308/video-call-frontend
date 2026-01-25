@@ -51,7 +51,7 @@ export default function Home() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen p-6 md:p-12 max-w-7xl mx-auto flex flex-col gap-10">
+    <div className="min-h-[calc(100vh-6rem)] p-6 md:p-12 max-w-7xl mx-auto flex flex-col gap-10">
 
       {/* Main Dashboard Grid */}
       <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-2">
