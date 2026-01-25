@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Star, Clock, MapPin, Languages, CheckCircle, Video, BookOpen, Quote, Sparkles } from 'lucide-react';
+import AvailabilityCalendar from '@/components/AvailabilityCalendar';
 
 export default function TherapistDetail() {
     const { id } = useParams();
@@ -137,6 +138,15 @@ export default function TherapistDetail() {
                                             <span className="text-slate-300">{edu}</span>
                                         </div>
                                     ))}
+                                </div>
+                            </Section>
+
+                            <Section title="Check Availability" icon={<Clock size={20} />}>
+                                <div className="bg-slate-900/40 p-6 rounded-2xl border border-white/5">
+                                    <AvailabilityCalendar
+                                        availability={therapist.availability}
+                                    // onSlotSelect={(slot) => ...} // Optional: Could pre-select for booking
+                                    />
                                 </div>
                             </Section>
                         </div>
