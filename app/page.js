@@ -7,14 +7,28 @@ import { motion } from 'framer-motion';
 
 export default function Home() {
   const [roomId, setRoomId] = useState('');
+  const [appointments, setAppointments] = useState([]);
   const router = useRouter();
   const { user, loading, logout } = useAuth();
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
+    } else if (user) {
+      fetchAppointments();
     }
   }, [user, loading, router]);
+
+  const fetchAppointments = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/bookings/my-appointments', { credentials: 'include' });
+      if (res.ok) {
+        setAppointments(await res.json());
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const joinRoom = (e) => {
     e.preventDefault();
@@ -50,14 +64,52 @@ export default function Home() {
 
   if (!user) return null;
 
+  const nextAppointment = appointments.find(a => new Date(a.date) > new Date()) || appointments[0]; // Simple logic for demo, usually find closest future
+
   return (
     <div className="min-h-[calc(100vh-6rem)] p-6 md:p-12 max-w-7xl mx-auto flex flex-col gap-10">
 
-      {/* Main Dashboard Grid */}
-      <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-2">
-        Welcome back, {user.username}
-      </h1>
-      <p className="text-slate-400 -mt-8 mb-4">Ready for your session today?</p>
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-2">
+            Welcome back, {user.username}
+          </h1>
+          <p className="text-slate-400">Ready for your session today?</p>
+        </div>
+      </div>
+
+      {/* Upcoming Session Banner (if any) */}
+      {appointments.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden group"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none -mr-16 -mt-16 group-hover:bg-blue-500/20 transition-colors" />
+
+          <div className="relative z-10 flex items-center gap-6">
+            <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
+              <Calendar size={32} />
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-xl mb-1">Upcoming Session</h3>
+              <p className="text-blue-300 font-medium flex items-center gap-2">
+                {new Date(nextAppointment.date).toDateString()} • {nextAppointment.slot}
+              </p>
+              <p className="text-slate-400 text-sm mt-1">
+                with {user.role === 'therapist' ? nextAppointment.userId?.username : nextAppointment.therapistId?.name}
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => router.push(`/room/${nextAppointment.meetCode}`)}
+            className="relative z-10 bg-white text-blue-900 font-bold py-3 px-8 rounded-xl hover:bg-blue-50 transition-all shadow-lg active:scale-[0.98] flex items-center gap-2"
+          >
+            <Video size={20} /> Join Now
+          </button>
+        </motion.div>
+      )}
 
       {/* Main Dashboard Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
