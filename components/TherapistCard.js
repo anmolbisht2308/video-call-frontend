@@ -1,5 +1,6 @@
-import { Star, CheckCircle } from 'lucide-react';
+import { Star, CheckCircle, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function TherapistCard({ therapist, onBook }) {
     return (
@@ -10,7 +11,7 @@ export default function TherapistCard({ therapist, onBook }) {
             transition={{ duration: 0.3 }}
             className="group glass rounded-3xl overflow-hidden flex flex-col relative"
         >
-            <div className="relative h-48 overflow-hidden">
+            <Link href={`/therapists/${therapist._id}`} className="block relative h-48 overflow-hidden cursor-pointer">
                 <img
                     src={therapist.image}
                     alt={therapist.name}
@@ -25,10 +26,10 @@ export default function TherapistCard({ therapist, onBook }) {
                 )}
 
                 <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-md">{therapist.name}</h3>
+                    <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-md group-hover:text-blue-400 transition-colors">{therapist.name}</h3>
                     <p className="text-slate-300 text-sm opacity-90">{therapist.title}</p>
                 </div>
-            </div>
+            </Link>
 
             <div className="p-6 flex-1 flex flex-col text-slate-200">
                 <div className="flex justify-between items-center mb-4">
@@ -74,14 +75,22 @@ export default function TherapistCard({ therapist, onBook }) {
                         )}
                     </div>
 
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-indigo-500/25 transition-all text-sm"
-                        onClick={() => onBook(therapist._id)}
-                    >
-                        Book Now
-                    </motion.button>
+                    <div className="flex gap-2">
+                        <Link
+                            href={`/therapists/${therapist._id}`}
+                            className="p-2.5 rounded-xl border border-white/10 hover:bg-white/5 transition-colors text-slate-300 hover:text-white"
+                        >
+                            <Info size={20} />
+                        </Link>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-indigo-500/25 transition-all text-sm"
+                            onClick={() => onBook(therapist._id)}
+                        >
+                            Book
+                        </motion.button>
+                    </div>
                 </div>
             </div>
         </motion.div>
