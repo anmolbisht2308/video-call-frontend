@@ -160,7 +160,7 @@ export default function TherapistDetail() {
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="sticky top-8 space-y-6"
+                            className="sticky top-28 space-y-6"
                         >
                             <div className="glass p-6 rounded-3xl border border-white/5 shadow-2xl">
                                 <div className="flex justify-between items-center mb-6">

@@ -84,7 +84,7 @@ export default function TherapistsPage() {
             </AnimatePresence>
 
             {/* Desktop Sidebar (Sticky) */}
-            <aside className="hidden lg:block w-80 shrink-0 self-start sticky top-8 space-y-8">
+            <aside className="hidden lg:block w-80 shrink-0 self-start sticky top-28 space-y-8">
                 <div className="bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-3xl p-6 shadow-lg">
                     <div className="flex items-center gap-3 mb-6">
                         <Filter className="text-blue-400" size={20} />
