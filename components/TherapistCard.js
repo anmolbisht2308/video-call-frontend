@@ -31,7 +31,7 @@ export default function TherapistCard({ therapist, onBook }) {
                 </div>
             </Link>
 
-            <div className="p-6 flex-1 flex flex-col text-slate-200">
+            <div className="p-6 flex-1 flex flex-col text-foreground">
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-1.5 text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/20">
                         <Star size={16} fill="currentColor" />
@@ -39,38 +39,38 @@ export default function TherapistCard({ therapist, onBook }) {
                             {(therapist.stars.reduce((a, b) => a + b, 0) / therapist.stars.length || 5).toFixed(1)}
                         </span>
                     </div>
-                    <span className="text-slate-400 text-xs font-medium">
+                    <span className="text-muted-foreground text-xs font-medium">
                         {therapist.yoe} Yrs Experience
                     </span>
                 </div>
 
                 <div className="flex flex-wrap gap-2 mb-6">
                     {therapist.specialization.slice(0, 3).map((spec, i) => (
-                        <span key={i} className="bg-slate-800/50 border border-slate-700/50 text-slate-300 px-3 py-1 rounded-full text-xs font-medium">
+                        <span key={i} className="bg-secondary border border-border text-foreground px-3 py-1 rounded-full text-xs font-medium">
                             {spec}
                         </span>
                     ))}
                     {therapist.specialization.length > 3 && (
-                        <span className="bg-slate-800/50 border border-slate-700/50 text-slate-400 px-3 py-1 rounded-full text-xs font-medium">
+                        <span className="bg-secondary border border-border text-muted-foreground px-3 py-1 rounded-full text-xs font-medium">
                             +{therapist.specialization.length - 3}
                         </span>
                     )}
                 </div>
 
-                <div className="mt-auto flex justify-between items-end pt-4 border-t border-slate-800/50">
+                <div className="mt-auto flex justify-between items-end pt-4 border-t border-border/50">
                     <div className="flex flex-col">
                         {therapist.discounted_price ? (
                             <>
-                                <span className="text-xs line-through text-slate-500 mb-0.5">₹{therapist.price}</span>
+                                <span className="text-xs line-through text-muted-foreground mb-0.5">₹{therapist.price}</span>
                                 <div className="flex items-baseline gap-1">
-                                    <span className="text-2xl font-bold text-white">₹{therapist.discounted_price}</span>
-                                    <span className="text-xs text-slate-400">/ session</span>
+                                    <span className="text-2xl font-bold text-foreground">₹{therapist.discounted_price}</span>
+                                    <span className="text-xs text-muted-foreground">/ session</span>
                                 </div>
                             </>
                         ) : (
                             <div className="flex items-baseline gap-1">
-                                <span className="text-2xl font-bold text-white">₹{therapist.price}</span>
-                                <span className="text-xs text-slate-400">/ session</span>
+                                <span className="text-2xl font-bold text-foreground">₹{therapist.price}</span>
+                                <span className="text-xs text-muted-foreground">/ session</span>
                             </div>
                         )}
                     </div>
@@ -78,14 +78,14 @@ export default function TherapistCard({ therapist, onBook }) {
                     <div className="flex gap-2">
                         <Link
                             href={`/therapists/${therapist._id}`}
-                            className="p-2.5 rounded-xl border border-white/10 hover:bg-white/5 transition-colors text-slate-300 hover:text-white"
+                            className="p-2.5 rounded-xl border border-border hover:bg-foreground/5 transition-colors text-muted-foreground hover:text-foreground"
                         >
                             <Info size={20} />
                         </Link>
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-indigo-500/25 transition-all text-sm"
+                            className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-2.5 rounded-xl font-semibold shadow-lg shadow-primary/25 transition-all text-sm"
                             onClick={() => onBook(therapist._id)}
                         >
                             Book

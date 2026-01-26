@@ -100,15 +100,15 @@ export default function BookAppointment() {
         }
     };
 
-    if (loading) return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">Loading...</div>;
-    if (!therapist) return <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">Therapist not found</div>;
+    if (loading) return <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground">Loading...</div>;
+    if (!therapist) return <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground">Therapist not found</div>;
 
     return (
-        <div className="min-h-[calc(100vh-6rem)] bg-slate-950 text-slate-200 p-4 md:p-8 font-sans selection:bg-blue-500/30">
+        <div className="min-h-[calc(100vh-6rem)] bg-background text-foreground p-4 md:p-8 font-sans selection:bg-primary/30">
             <div className="max-w-4xl mx-auto">
                 <button
                     onClick={() => step > 1 ? setStep(step - 1) : router.back()}
-                    className="flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors group"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors group"
                 >
                     <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                     {step > 1 ? 'Go Back' : 'Back to Profile'}
@@ -123,13 +123,13 @@ export default function BookAppointment() {
                             { id: 3, label: 'Preview & Pay' }
                         ].map((s, idx) => (
                             <div key={s.id} className="flex items-center gap-4">
-                                <div className={`flex items-center gap-2 ${step >= s.id ? 'text-blue-400' : 'text-slate-600'}`}>
-                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center border ${step >= s.id ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-700'}`}>
+                                <div className={`flex items-center gap-2 ${step >= s.id ? 'text-blue-500' : 'text-muted-foreground'}`}>
+                                    <span className={`w-8 h-8 rounded-full flex items-center justify-center border ${step >= s.id ? 'bg-blue-600 border-blue-600 text-white' : 'border-border text-muted-foreground'}`}>
                                         {s.id}
                                     </span>
                                     <span className="hidden md:inline">{s.label}</span>
                                 </div>
-                                {idx < 2 && <span className="text-slate-700">&gt;</span>}
+                                {idx < 2 && <span className="text-muted-foreground">&gt;</span>}
                             </div>
                         ))}
                     </div>
@@ -141,9 +141,9 @@ export default function BookAppointment() {
                         <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30 mb-4">
                             <CheckCircle size={48} className="text-white" />
                         </div>
-                        <h2 className="text-3xl font-bold text-white">Booking Confirmed!</h2>
-                        <p className="text-slate-300 text-lg">
-                            Session with <span className="text-white font-semibold">{therapist.name}</span> on <span className="text-white font-semibold">{date.toDateString()}</span> at <span className="text-white font-semibold">{selectedSlot}</span>.
+                        <h2 className="text-3xl font-bold text-foreground">Booking Confirmed!</h2>
+                        <p className="text-muted-foreground text-lg">
+                            Session with <span className="text-foreground font-semibold">{therapist.name}</span> on <span className="text-foreground font-semibold">{date.toDateString()}</span> at <span className="text-foreground font-semibold">{selectedSlot}</span>.
                         </p>
 
                         <div className="bg-emerald-900/30 p-6 rounded-2xl border border-emerald-500/30 w-full mt-4">
@@ -156,13 +156,13 @@ export default function BookAppointment() {
                             <button onClick={() => router.push(`/room/${meetCode}`)} className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-500/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
                                 <Video size={20} /> Join Meeting Now
                             </button>
-                            <button onClick={() => router.push('/')} className="px-8 border border-slate-700 hover:bg-slate-800 text-slate-300 font-bold py-4 rounded-xl transition-all">
+                            <button onClick={() => router.push('/')} className="px-8 border border-border hover:bg-secondary text-muted-foreground hover:text-foreground font-bold py-4 rounded-xl transition-all">
                                 Dashboard
                             </button>
                         </div>
                     </div>
                 ) : (
-                    <div className="bg-slate-900/50 border border-white/5 rounded-3xl p-6 md:p-10 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                    <div className="bg-secondary/30 border border-border/50 rounded-3xl p-6 md:p-10 backdrop-blur-sm shadow-xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-32 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
                         {/* Step 1: Questionnaire */}
@@ -170,7 +170,7 @@ export default function BookAppointment() {
                             <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
                                 {QUESTIONS.map(q => (
                                     <div key={q.id} className="space-y-3">
-                                        <h3 className="text-lg font-medium text-white">{q.question}</h3>
+                                        <h3 className="text-lg font-medium text-foreground">{q.question}</h3>
                                         <div className="flex flex-wrap gap-3">
                                             {q.options.map(opt => {
                                                 const isSelected = q.multi ? answers.issues?.includes(opt) : answers[q.id] === opt;
@@ -178,7 +178,7 @@ export default function BookAppointment() {
                                                     <button
                                                         key={opt}
                                                         onClick={() => handleAnswer(q.id, opt)}
-                                                        className={`px-4 py-2 rounded-full border text-sm transition-all ${isSelected ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/25' : 'border-slate-700 text-slate-300 hover:border-slate-500'}`}
+                                                        className={`px-4 py-2 rounded-full border text-sm transition-all ${isSelected ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/25' : 'border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground'}`}
                                                     >
                                                         {opt}
                                                     </button>
@@ -191,7 +191,7 @@ export default function BookAppointment() {
                                     <button
                                         onClick={() => setStep(2)}
                                         disabled={!answers.age || !answers.history || !answers.for_whom}
-                                        className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                                     >
                                         Next Step <ArrowRight size={18} />
                                     </button>
@@ -204,7 +204,7 @@ export default function BookAppointment() {
                             <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
                                 <div className="grid md:grid-cols-2 gap-8">
                                     <div>
-                                        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Clock className="text-blue-400" size={20} /> Select Date & Time</h3>
+                                        <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2"><Clock className="text-blue-400" size={20} /> Select Date & Time</h3>
                                         <AvailabilityCalendar
                                             availability={{ weekly: therapist.availability, overrides: therapist.availability_overrides }}
                                             onDateSelect={setDate}
@@ -213,20 +213,20 @@ export default function BookAppointment() {
                                         />
                                     </div>
                                     <div className="space-y-6">
-                                        <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2"><Phone className="text-purple-400" size={20} /> Contact Details</h3>
+                                        <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2"><Phone className="text-purple-400" size={20} /> Contact Details</h3>
                                         <div className="space-y-2">
-                                            <label className="text-sm text-slate-400">Phone Number</label>
+                                            <label className="text-sm text-muted-foreground">Phone Number</label>
                                             <input
                                                 type="tel"
                                                 placeholder="+1 234 567 890"
                                                 value={phoneNumber}
                                                 onChange={(e) => setPhoneNumber(e.target.value)}
-                                                className="w-full bg-slate-950/50 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-blue-500 transition-colors"
+                                                className="w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground outline-none focus:border-primary transition-colors"
                                             />
                                         </div>
                                         <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl flex items-start gap-3">
                                             <ShieldCheck className="text-blue-400 shrink-0 mt-0.5" size={18} />
-                                            <p className="text-sm text-slate-300">Your details are secure and will only be shared with your therapist before the session.</p>
+                                            <p className="text-sm text-muted-foreground">Your details are secure and will only be shared with your therapist before the session.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -234,7 +234,7 @@ export default function BookAppointment() {
                                     <button
                                         onClick={() => setStep(3)}
                                         disabled={!selectedSlot || !phoneNumber}
-                                        className="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-xl font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                                     >
                                         Next Step <ArrowRight size={18} />
                                     </button>
@@ -245,28 +245,28 @@ export default function BookAppointment() {
                         {/* Step 3: Summary */}
                         {step === 3 && (
                             <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-                                <h3 className="text-xl font-bold text-white mb-6">Booking Summary</h3>
+                                <h3 className="text-xl font-bold text-foreground mb-6">Booking Summary</h3>
 
-                                <div className="bg-slate-950/50 rounded-2xl border border-white/5 p-6 grid md:grid-cols-2 gap-8">
+                                <div className="bg-background rounded-2xl border border-border/50 p-6 grid md:grid-cols-2 gap-8">
                                     <div className="space-y-4">
                                         <div className="flex items-start gap-4">
                                             <img src={therapist.image} className="w-16 h-16 rounded-xl object-cover" />
                                             <div>
-                                                <h4 className="font-bold text-white text-lg">{therapist.name}</h4>
-                                                <p className="text-blue-400">{therapist.title}</p>
+                                                <h4 className="font-bold text-foreground text-lg">{therapist.name}</h4>
+                                                <p className="text-primary">{therapist.title}</p>
                                             </div>
                                         </div>
                                         <div className="space-y-2 pt-2">
-                                            <div className="flex justify-between text-sm"><span className="text-slate-400">Date</span> <span className="text-white">{date.toDateString()}</span></div>
-                                            <div className="flex justify-between text-sm"><span className="text-slate-400">Time</span> <span className="text-white">{selectedSlot}</span></div>
-                                            <div className="flex justify-between text-sm"><span className="text-slate-400">Duration</span> <span className="text-white">60 Minutes</span></div>
+                                            <div className="flex justify-between text-sm"><span className="text-muted-foreground">Date</span> <span className="text-foreground">{date.toDateString()}</span></div>
+                                            <div className="flex justify-between text-sm"><span className="text-muted-foreground">Time</span> <span className="text-foreground">{selectedSlot}</span></div>
+                                            <div className="flex justify-between text-sm"><span className="text-muted-foreground">Duration</span> <span className="text-foreground">60 Minutes</span></div>
                                         </div>
                                     </div>
 
-                                    <div className="border-l border-white/5 pl-8 flex flex-col justify-center space-y-4">
+                                    <div className="border-l border-border/50 pl-8 flex flex-col justify-center space-y-4">
                                         <div className="flex justify-between items-center">
-                                            <span className="text-slate-400">Consultation Fee</span>
-                                            <span className="text-white">₹{therapist.price}</span>
+                                            <span className="text-muted-foreground">Consultation Fee</span>
+                                            <span className="text-foreground">₹{therapist.price}</span>
                                         </div>
                                         {therapist.discounted_price && (
                                             <div className="flex justify-between items-center text-emerald-400">
@@ -274,10 +274,10 @@ export default function BookAppointment() {
                                                 <span>- ₹{therapist.price - therapist.discounted_price}</span>
                                             </div>
                                         )}
-                                        <div className="h-px bg-white/10 my-2" />
+                                        <div className="h-px bg-border/50 my-2" />
                                         <div className="flex justify-between items-center text-xl font-bold">
-                                            <span className="text-white">Total Pay</span>
-                                            <span className="text-white">₹{therapist.discounted_price || therapist.price}</span>
+                                            <span className="text-foreground">Total Pay</span>
+                                            <span className="text-foreground">₹{therapist.discounted_price || therapist.price}</span>
                                         </div>
                                     </div>
                                 </div>

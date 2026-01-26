@@ -138,7 +138,7 @@ export default function Profile() {
 
     if (loading || isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center text-slate-400">
+            <div className="min-h-screen flex items-center justify-center text-muted-foreground">
                 <Activity className="animate-spin mr-2" /> Loading Profile...
             </div>
         );
@@ -154,7 +154,7 @@ export default function Profile() {
                 <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 mb-2">
                     {isEditing ? 'Manage Your Profile' : 'Create Your Profile'}
                 </h1>
-                <p className="text-slate-400 text-lg">
+                <p className="text-muted-foreground text-lg">
                     {isEditing
                         ? 'Update your professional details to attract more clients.'
                         : 'Fill in your details to get listed on our platform.'}
@@ -185,13 +185,13 @@ export default function Profile() {
                         <Input label="Phone Number" name="phone_number" value={formData.phone_number} onChange={handleChange} placeholder="+1 234 567 890" icon={<Phone size={16} />} />
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-400 ml-1">Gender</label>
+                            <label className="text-sm font-medium text-muted-foreground ml-1">Gender</label>
                             <div className="relative">
                                 <select
                                     name="therapist_gender"
                                     value={formData.therapist_gender}
                                     onChange={handleChange}
-                                    className="w-full bg-slate-900/50 border border-white/10 rounded-xl pl-4 pr-10 py-3 text-white outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer"
+                                    className="w-full bg-background border border-border rounded-xl pl-4 pr-10 py-3 text-foreground outline-none focus:border-primary transition-all appearance-none cursor-pointer"
                                 >
                                     <option value="M">Male</option>
                                     <option value="F">Female</option>
@@ -203,7 +203,7 @@ export default function Profile() {
                         <Input label="Profile Image URL" name="image" value={formData.image} onChange={handleChange} placeholder="https://example.com/photo.jpg" icon={<Upload size={16} />} required />
                         {formData.image && (
                             <div className="md:col-span-2 flex justify-center mt-4">
-                                <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-slate-700 shadow-xl">
+                                <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-border shadow-xl">
                                     <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
                                 </div>
                             </div>
@@ -226,7 +226,7 @@ export default function Profile() {
                         </div>
 
                         <div className="md:col-span-2">
-                            <Input label="Languages Known (comma separated)" name="languages_known" value={formData.languages_known} onChange={handleChange} placeholder="English, Spanish, Hindi" icon={<MessageSquareIcon size={16} />} required />
+                            <Input label="Languages Known (comma separated)" name="languages_known" value={formData.languages_known} onChange={handleChange} placeholder="English, Spanish, Hindi" icon={<Activity size={16} />} required />
                         </div>
                     </div>
                 </Section>
@@ -268,7 +268,7 @@ export default function Profile() {
                     <button
                         type="submit"
                         disabled={isSaving}
-                        className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg shadow-blue-500/20 transition-all active:scale-[0.98] flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-4 px-8 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {isSaving ? <Activity className="animate-spin" /> : <Save size={20} />}
                         {isSaving ? 'Saving...' : 'Save Profile'}
@@ -284,12 +284,12 @@ import AvailabilityEditor from '@/components/AvailabilityEditor';
 
 function Section({ title, icon, children }) {
     return (
-        <div className="glass p-8 rounded-3xl border border-white/5">
-            <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
-                <div className="p-2 bg-slate-800 rounded-lg text-blue-400">
+        <div className="glass p-8 rounded-3xl border border-border/50">
+            <div className="flex items-center gap-3 mb-8 border-b border-border/50 pb-4">
+                <div className="p-2 bg-secondary rounded-lg text-primary">
                     {icon}
                 </div>
-                <h2 className="text-xl font-bold text-white">{title}</h2>
+                <h2 className="text-xl font-bold text-foreground">{title}</h2>
             </div>
             {children}
         </div>
@@ -299,12 +299,12 @@ function Section({ title, icon, children }) {
 function Input({ label, name, value, onChange, placeholder, type = "text", icon, required, disabled }) {
     return (
         <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-400 ml-1 flex items-center gap-1">
-                {label} {required && <span className="text-red-400">*</span>}
+            <label className="text-sm font-medium text-muted-foreground ml-1 flex items-center gap-1">
+                {label} {required && <span className="text-destructive">*</span>}
             </label>
             <div className="relative group">
                 {icon && (
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">
                         {icon}
                     </div>
                 )}
@@ -316,7 +316,7 @@ function Input({ label, name, value, onChange, placeholder, type = "text", icon,
                     placeholder={placeholder}
                     required={required}
                     disabled={disabled}
-                    className={`w-full bg-slate-900/50 border border-white/10 rounded-xl ${icon ? 'pl-11' : 'pl-4'} pr-4 py-3 text-white placeholder-slate-600 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`w-full bg-background border border-border rounded-xl ${icon ? 'pl-11' : 'pl-4'} pr-4 py-3 text-foreground placeholder-muted-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
                 />
             </div>
         </div>
@@ -326,8 +326,8 @@ function Input({ label, name, value, onChange, placeholder, type = "text", icon,
 function TextArea({ label, name, value, onChange, placeholder, required }) {
     return (
         <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-400 ml-1 flex items-center gap-1">
-                {label} {required && <span className="text-red-400">*</span>}
+            <label className="text-sm font-medium text-muted-foreground ml-1 flex items-center gap-1">
+                {label} {required && <span className="text-destructive">*</span>}
             </label>
             <textarea
                 name={name}
@@ -336,7 +336,7 @@ function TextArea({ label, name, value, onChange, placeholder, required }) {
                 placeholder={placeholder}
                 required={required}
                 rows={4}
-                className="w-full bg-slate-900/50 border border-white/10 rounded-xl p-4 text-white placeholder-slate-600 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 transition-all resize-none"
+                className="w-full bg-background border border-border rounded-xl p-4 text-foreground placeholder-muted-foreground outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all resize-none"
             />
         </div>
     );

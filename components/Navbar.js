@@ -3,10 +3,27 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, LogOut, ChevronRight, Activity, Sparkles } from 'lucide-react';
+import { Menu, X, User, LogOut, ChevronRight, Activity, Sparkles, Sun, Moon } from 'lucide-react';
+
+function ThemeToggle() {
+    const { theme, toggleTheme } = useTheme();
+
+    return (
+        <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/10 transition-colors"
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
+    );
+}
 
 export default function Navbar() {
+    // ...
+
     const { user, logout, loading } = useAuth();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
@@ -53,17 +70,17 @@ export default function Navbar() {
                 initial="hidden"
                 animate="visible"
                 variants={containerVariants}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${scrolled ? 'bg-slate-950/80 backdrop-blur-xl border-white/10 py-3 shadow-[0_0_30px_rgba(0,0,0,0.5)]' : 'bg-transparent border-transparent py-5'}`}
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${scrolled ? 'bg-background/80 backdrop-blur-xl border-border/10 py-3 shadow-[0_0_30px_rgba(0,0,0,0.1)]' : 'bg-transparent border-transparent py-5'}`}
             >
                 <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
                     {/* Logo */}
                     <motion.div variants={itemVariants}>
                         <Link href="/" className="flex items-center gap-2 group relative">
-                            <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             <div className="relative w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                                 <Activity className="text-white" size={24} />
                             </div>
-                            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400 group-hover:to-white transition-all duration-300">
+                            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-muted-foreground group-hover:to-foreground transition-all duration-300">
                                 Infiheal
                             </span>
                         </Link>
@@ -75,43 +92,45 @@ export default function Navbar() {
                             <motion.div key={link.href} variants={itemVariants}>
                                 <Link
                                     href={link.href}
-                                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:text-white group ${pathname === link.href ? 'text-white' : 'text-slate-400'}`}
+                                    className={`relative px-4 py-2 rounded-full text-sm font-medium transition-colors hover:text-foreground group ${pathname === link.href ? 'text-foreground' : 'text-muted-foreground'}`}
                                 >
                                     {pathname === link.href && (
                                         <motion.div
                                             layoutId="activePill"
-                                            className="absolute inset-0 bg-white/10 rounded-full md:rounded-lg"
+                                            className="absolute inset-0 bg-foreground/10 rounded-full md:rounded-lg"
                                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                         />
                                     )}
                                     <span className="relative z-10">{link.name}</span>
                                     {pathname !== link.href && (
-                                        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-200" />
+                                        <div className="absolute inset-0 bg-foreground/5 opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-200" />
                                     )}
                                 </Link>
                             </motion.div>
                         ))}
                     </div>
 
-                    {/* Auth Buttons (Desktop) */}
+                    {/* Auth Buttons & Theme Toggle (Desktop) */}
                     <motion.div variants={itemVariants} className="hidden md:flex items-center gap-4">
+                        <ThemeToggle />
+
                         {loading ? (
-                            <div className="w-8 h-8 rounded-full border-2 border-slate-700 border-t-blue-500 animate-spin" />
+                            <div className="w-8 h-8 rounded-full border-2 border-slate-700 border-t-primary animate-spin" />
                         ) : user ? (
-                            <div className="flex items-center gap-4 bg-slate-900/50 p-1.5 pr-2 pl-4 rounded-full border border-white/5 backdrop-blur-md">
+                            <div className="flex items-center gap-4 bg-secondary/50 p-1.5 pr-2 pl-4 rounded-full border border-border/50 backdrop-blur-md">
                                 {user.role === 'therapist' && (
-                                    <Link href="/profile" className="text-xs font-medium text-slate-300 hover:text-white transition-colors uppercase tracking-wide">
+                                    <Link href="/profile" className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide">
                                         Manage Profile
                                     </Link>
                                 )}
-                                <div className="h-4 w-[1px] bg-white/10" />
+                                <div className="h-4 w-[1px] bg-border" />
                                 <div className="flex items-center gap-2">
                                     <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg border border-white/10">
                                         {user.username[0].toUpperCase()}
                                     </div>
                                     <button
                                         onClick={logout}
-                                        className="p-1.5 hover:bg-white/10 rounded-full transition-colors text-slate-400 hover:text-white"
+                                        className="p-1.5 hover:bg-foreground/10 rounded-full transition-colors text-muted-foreground hover:text-foreground"
                                         title="Logout"
                                     >
                                         <LogOut size={16} />
@@ -120,16 +139,16 @@ export default function Navbar() {
                             </div>
                         ) : (
                             <div className="flex items-center gap-4">
-                                <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                                <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                                     Log In
                                 </Link>
                                 <Link
                                     href="/register"
                                     className="group relative px-5 py-2.5 rounded-xl text-sm font-bold overflow-hidden"
                                 >
-                                    <div className="absolute inset-0 bg-white group-hover:scale-105 transition-transform duration-300" />
+                                    <div className="absolute inset-0 bg-foreground group-hover:scale-105 transition-transform duration-300" />
                                     <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-indigo-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <span className="relative text-slate-900 flex items-center gap-2">
+                                    <span className="relative text-background flex items-center gap-2">
                                         Get Started <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                     </span>
                                 </Link>
@@ -141,7 +160,7 @@ export default function Navbar() {
                     <motion.button
                         variants={itemVariants}
                         onClick={() => setIsOpen(!isOpen)}
-                        className="md:hidden p-2 text-slate-300 hover:text-white transition-colors relative z-50"
+                        className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors relative z-50"
                     >
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </motion.button>
